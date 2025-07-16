@@ -1,5 +1,7 @@
 
-   html, body {
+  
+  /* --- main page --- */
+  html, body {
         margin: 0;
         padding: 0;
         height: 100%;
@@ -67,6 +69,22 @@
         padding: 20px;
     }
 
+    .hero-banner {
+        position: relative;
+        height: 100vh;
+        background: url('images/your-background.jpg') no-repeat center center/cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-overlay h1,
+    .hero-overlay h2,
+    .hero-overlay p {
+    margin: 10px 0;
+    color: #f1eded; /* You can change to white or dark based on contrast */
+    }
 
     .hero h1 {
       font-size: 3rem;
@@ -97,6 +115,22 @@
       background-color: gold;
       color: black;
     }
+
+    .center-band {
+  position: fixed; /* or absolute if you want it to scroll */
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.3); /* semi-transparent white */
+  text-align: center;
+  padding: 8px 0;
+  z-index: 10;
+  font-size:  1.5rem;
+  font-weight: bold;
+  color: #000; /* use #fff if your background is dark */
+  backdrop-filter: blur(8px); /* optional: softens background behind */
+}
 
     .about {
     display: flex;
@@ -140,20 +174,22 @@
     }
 
     
-    .social-footer svg {
-        width: 32px;
-        height: 32px;
-        fill: white;
-        transition: transform 0.2s ease;
-    }
+    .social-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px 0;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  z-index: 10;
+  backdrop-filter: blur(6px);
+}
 
-    .social-footer a:hover svg {
-        transform: scale(1.2);
-        fill: #3498db;
-    }
 
-
- /*  about me page */ 
+ /* --- about me page --- */ 
 
  nav {
   position: absolute;
@@ -163,27 +199,68 @@
   z-index: 100;
 }
 
-    .about-section {
+.about-section {
   background-color: #daeaf6;
   padding: 0;
   margin: 0;
 }
 
-.about-img {
-  width: 100vw;
-  height: auto;
-  display: block;
+.img-rowing {
+  width: 100%;
+  max-height: 500px;
   object-fit: cover;
-  border-radius: 0;
-  box-shadow: none;
-  margin: 0;
+  display: block;
+  margin: 0 auto;
+}
+.img-friends {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+}
+.image-fade {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.image-fade img {
+  width: 100%;
+  max-height: 500px; /* or adjust as needed */
+  object-fit: cover;
+  display: block;
+  position: relative;
+  z-index: 0;
 }
 
+.image-fade::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, #daeaf6, rgba(218, 234, 246, 0));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.image-fade::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, #daeaf6, rgba(218, 234, 246, 0));
+  z-index: 1;
+  pointer-events: none;
+}
 .about-text {
 
   transform: translateY(40px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  padding: 60px 20px;
+  padding: 60px 20px 160px;
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
@@ -214,4 +291,80 @@
     .about-text.visible {
         opacity: 1;
         transform: translateY(0);
+    }
+
+
+    /* ------- projects page ----*/
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      color: #0a3d62;
+      margin: 60px 0 20px;
+    }
+
+    .project-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 30px;
+    }
+
+    .project-card {
+      background-color: #e8f1fb;
+      border-radius: 12px;
+      padding: 20px;
+      width: 300px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+
+    .project-title {
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .project-details {
+      display: none;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+
+    .project-card.expanded .project-details {
+      display: block;
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .social-footer {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 30px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
     }

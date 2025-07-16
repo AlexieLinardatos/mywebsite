@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Projects</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="project.html">Projects</a>
+      <a href="#">Photos</a>
+    </div>
+  </nav>
+
+  <h2 class="section-title">Thesis</h2>
+  <div class="project-grid">
+    <div class="project-card" onclick="toggleDetails(this)">
+      <img src="images/esreal.png" alt="ESREAL Project Screenshot">
+      <div class="project-title">ESREAL: Evaluating Hallucinations in Vision-Language Models</div>
+      <div class="project-details">
+        <p>ESREAL is my master's thesis project—a framework for detecting and reducing hallucinations in vision-language models. It combines CLIPCap, Stable Diffusion, GroundingDINO, and InstructBLIP in a PPO training loop to ensure outputs remain grounded and coherent.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">School Projects</h2>
+  <div class="project-grid">
+    <div class="project-card" onclick="toggleDetails(this)">
+      <img src="images/spam-detection.jpg" alt="Spam Filter Project">
+      <div class="project-title">Project A: Spam Classifier</div>
+      <div class="project-details">
+        <p>A Python-based spam filter using NLP and logistic regression. Trained on labeled email datasets to classify spam vs. ham.</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="toggleDetails(this)">
+      <img src="images/rowing-app.jpg" alt="Rowing App Screenshot">
+      <div class="project-title">Project B: Rowing Scheduler</div>
+      <div class="project-details">
+        <p>A full-stack web app to manage rowing team training schedules. Built with Flask, SQLite, and Bootstrap.</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="toggleDetails(this)">
+      <img src="images/performance-chart.jpg" alt="D3 Visualization">
+      <div class="project-title">Project C: D3 Visualization</div>
+      <div class="project-details">
+        <p>An interactive data viz dashboard using D3.js to plot rowing performance metrics over time, with filters and hoverable highlights.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="social-footer">
+    <!-- Your GitHub & LinkedIn SVGs -->
+  </footer>
+
+  <script>
+    function toggleDetails(card) {
+      card.classList.toggle('expanded');
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+
+   html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .intro-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center; /* this centers the video */
+        z-index: -1;
+        opacity: 0.65;
+    }
+
+
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #3498db;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: #f0f0f0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .dropdown {
+      border: 1px solid white;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      background-color: transparent;
+      color: white;
+    }
+
+    .hero {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+
+    .hero h1 {
+      font-size: 3rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #000000;
+    }
+
+    .hero a {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .enter-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: 2px solid gold;
+      background-color: transparent;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .enter-btn:hover {
+      background-color: gold;
+      color: black;
+    }
+
+    .about {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    color: white;
+    min-height: 100vh;
+    background-color: #111; /* fallback if no video */
+    }
+
+    .about-container {
+    max-width: 800px;
+    text-align: center;
+    }
+
+    .page-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .about h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    }
+
+    .about p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #ccc;
+    }
+
+    .social-footer {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        padding: 30px 0;
+        background-color: rgba(0, 0, 0, 0.5); /* 50% transparent black */
+        z-index: 1;
+    }
+
+    
+    .social-footer svg {
+        width: 32px;
+        height: 32px;
+        fill: white;
+        transition: transform 0.2s ease;
+    }
+
+    .social-footer a:hover svg {
+        transform: scale(1.2);
+        fill: #3498db;
+    }
+
+
+ /*  about me page */ 
+
+ nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+    .about-section {
+  background-color: #daeaf6;
+  padding: 0;
+  margin: 0;
+}
+
+.about-img {
+  width: 100vw;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+}
+
+.about-text {
+
+  transform: translateY(40px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  padding: 60px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  color: #1a1a1a;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.about-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #0a3d62;
+}
+
+.about-section img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin: 0;
+    background-color: #daeaf6; /* pastel blue */
+}
+
+  body, .about-section {
+  margin: 0;
+  padding: 0;
+}
+
+    .about-text.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Me</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.about-text').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+
+<body>
+
+  <nav>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="#">Builds</a>
+      <a href="#">Learn</a>
+      <a href="#">Photos</a>
+      <div class="dropdown">Connect ▼</div>
+    </div>
+  </nav>
+
+  <section class="about-section">
+  <img src="images/pic1.jpg" alt="Rowing at sunrise" class="about-img">
+  <div class="about-text">
+    <h2>Who I Am</h2>
+    <p>I’m Alexie, a frontend developer and designer. I love building interactive websites that feel smooth and alive.</p>
+  </div>
+</section>
+
+<section class="about-section">
+  <img src="images/pic2.jpg" alt="Me coding" class="about-img">
+  <div class="about-text">
+    <h2>What I Do</h2>
+    <p>Whether it's design, animation, or development — I enjoy bringing creative ideas to life with clean, responsive code.</p>
+  </div>
+</section>
+
+</body>
+</html>

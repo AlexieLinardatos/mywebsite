@@ -1,69 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
 <head>
-  <meta charset="UTF-8">
-  <title>Atwell Clone</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alexie Linardatos — Home</title>
+  <!-- Single‑file demo: inline CSS so you can paste into index.html. 
+       If you prefer external CSS, move everything inside <style> to style.css. -->
+  <style>
+    /* ---------- Base & Theme ---------- */
+    :root{
+      --bg: #0b0c10;
+      --fg: #e6e6e6;
+      --muted: #a8b3cf;
+      --brand: #6ea8ff;
+      --brand-2: #9a8cff;
+      --card: rgba(255,255,255,.06);
+      --glass: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.12);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius-2xl: 24px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--fg);
+      background: radial-gradient(1200px 800px at 15% 10%, rgba(110,168,255,.18), transparent 60%),
+                  radial-gradient(900px 600px at 85% 30%, rgba(154,140,255,.14), transparent 60%),
+                  linear-gradient(180deg, #0b0c10 0%, #0f1117 100%);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+      line-height:1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ---------- Background Video ---------- */
+    .intro-video{ 
+      position:fixed; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; filter:brightness(.4) saturate(1.2); 
+    }
+    .bg-overlay{ position:fixed; inset:0; z-index:-1; backdrop-filter: blur(10px); background: radial-gradient(1200px 800px at 20% 20%, rgba(110,168,255,.12), transparent 60%) }
+    @media (prefers-reduced-motion: reduce){ .intro-video{ display:none } }
+
+    /* ---------- Layout Wrappers ---------- */
+    .page-wrapper{ min-height:100dvh; display:flex; flex-direction:column }
+    main{ flex:1; display:grid; place-items:stretch; gap:48px; padding:28px 20px 64px }
+    .container{ width:min(1100px, 92vw); margin-inline:auto }
+
+    /* ---------- Header (kept as-is structurally) ---------- */
+    nav{ position:sticky; top:0; z-index:10; backdrop-filter:saturate(1.2) blur(8px); background:linear-gradient(180deg, rgba(15,17,23,.65), rgba(15,17,23,.25)); border-bottom:1px solid var(--stroke) }
+    .nav-links{ display:flex; gap:18px; align-items:center; padding:14px 22px; width:min(1100px,92vw); margin:0 auto }
+    .nav-links a{ color:var(--fg); text-decoration:none; font-weight:600; opacity:.92 }
+    .nav-links a:hover{ opacity:1; text-underline-offset:4px; text-decoration:underline }
+
+    /* ---------- Hero ---------- */
+    .hero{ position:relative; display:grid; grid-template-columns:1.2fr .8fr; gap:28px; align-items:center }
+    .hero-card{ background:var(--glass); border:1px solid var(--stroke); border-radius:var(--radius-2xl); box-shadow:var(--shadow); padding:36px; overflow:hidden }
+    .hero-eyebrow{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid var(--stroke); font-size:.86rem; color:var(--muted) }
+    .hero h1{ font-size:clamp(32px, 6vw, 52px); margin:14px 0 8px; line-height:1.15 }
+    .hero h1 .accent{ background: linear-gradient(90deg, var(--brand), var(--brand-2)); -webkit-background-clip:text; background-clip:text; color:transparent }
+    .hero p{ color:var(--muted); font-size:1.06rem; margin:0 0 22px }
+    .cta{ display:flex; gap:12px; flex-wrap:wrap }
+    .btn{ appearance:none; border:none; border-radius:14px; padding:12px 16px; font-weight:700; cursor:pointer; transition:transform .18s ease, background .2s ease, opacity .2s ease }
+    .btn-solid{ background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b0c10 }
+    .btn-ghost{ background:transparent; border:1px solid var(--stroke); color:var(--fg) }
+    .btn:hover{ transform:translateY(-2px) }
+
+    .hero-side{ display:grid; gap:14px }
+    .stat{
+      display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--stroke); border-radius:18px; padding:16px 18px; backdrop-filter: blur(6px);
+      animation: float 6s ease-in-out infinite
+    }
+    .stat .dot{ width:10px; height:10px; border-radius:999px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow:0 0 0 6px rgba(110,168,255,.12) }
+    .stat b{ font-size:1.05rem }
+    @keyframes float{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
+
+    /* ---------- Sections ---------- */
+    section{ margin-top:22px }
+    .section-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:18px; margin-bottom:16px }
+    .section-head h2{ margin:0; font-size:1.4rem; letter-spacing:.3px }
+    .link{ color:var(--muted); text-decoration:none }
+    .link:hover{ color:var(--fg); text-decoration:underline; text-underline-offset:4px }
+
+    /* Projects Grid */
+    .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px }
+    .card{
+      display:grid; gap:10px; background:var(--card); border:1px solid var(--stroke); border-radius:18px; padding:16px; min-height:140px; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease; 
+    }
+    .card:hover{ transform: translateY(-4px); border-color: rgba(110,168,255,.6); box-shadow: 0 15px 30px rgba(0,0,0,.35) }
+    .chip{ display:inline-flex; align-items:center; gap:8px; font-size:.8rem; padding:6px 10px; border:1px solid var(--stroke); color:var(--muted); border-radius:999px }
+    .card h3{ margin:4px 0 2px; font-size:1.05rem }
+    .card p{ margin:0; color:var(--muted); font-size:.95rem }
+    .card a{ text-decoration:none; color:inherit }
+
+    /* About/Resume Split */
+    .split{ display:grid; grid-template-columns:1fr 1fr; gap:16px }
+    .panel{ background:var(--card); border:1px solid var(--stroke); border-radius:18px; padding:20px }
+    .panel h3{ margin:6px 0 8px }
+    .panel p{ margin:0 0 14px; color:var(--muted) }
+
+    /* ---------- Footer ---------- */
+    footer.social-footer{ display:flex; gap:14px; align-items:center; justify-content:center; padding:28px 0; border-top:1px solid var(--stroke); margin-top:28px }
+    footer.social-footer a{ display:inline-flex; padding:10px; border-radius:12px; background:var(--card); border:1px solid var(--stroke) }
+    footer.social-footer a:hover{ border-color: rgba(110,168,255,.6) }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 960px){
+      .hero{ grid-template-columns:1fr; }
+      .grid{ grid-template-columns:1fr 1fr }
+      .split{ grid-template-columns:1fr }
+    }
+    @media (max-width: 640px){
+      .grid{ grid-template-columns:1fr }
+      .nav-links{ justify-content:center; flex-wrap:wrap }
+      .hero-card{ padding:24px }
+    }
+  </style>
 </head>
-
 <body>
-
+  <!-- Background video (kept) -->
   <video class="intro-video" autoplay muted loop playsinline>
-    <source src="videos/background.mp4" type="video/mp4" />
+    <source src="videos/background1.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
+  <div class="bg-overlay" aria-hidden="true"></div>
 
-   <div class="page-wrapper">
- <nav>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="project.html">Projects</a>
-      <a href="#">Photos</a>
-    </div>
-  </nav> 
+  <div class="page-wrapper">
+    <!-- Header (kept exactly, only styled) -->
+    <nav>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="project.html">Projects</a>
+        <a href="resume.html">Resume</a>
+        <a href="#">Photos</a>
+      </div>
+    </nav>
 
- 
-   <div class="center-band">
-      <h1>Welcome</h1>
-      <h2>I'm Alexie Linardatos!</h2>
-    </div>
+    <main>
+      <div class="container hero">
+        <div class="hero-card">
+          <span class="hero-eyebrow" aria-label="intro tag"><span>👋</span> Hello</span>
+          <h1>I'm <span class="accent">Alexie Linardatos</span> — building human‑centric AI and clean UI.</h1>
+          <p>
+            Master’s student exploring hallucination detection & mitigation in vision‑language models. 
+            On this site you’ll find my thesis work, school projects, and a resume you can skim in 30 seconds.
+          </p>
+          <div class="cta">
+            <a class="btn btn-solid" href="project.html">View Projects</a>
+            <a class="btn btn-ghost" href="resume.html">Open Resume</a>
+            <a class="btn btn-ghost" href="about.html">About Me</a>
+          </div>
+        </div>
+        <div class="hero-side">
+          <div class="stat"><span class="dot"></span><div><b>ESREAL</b><br><small class="muted">Cyclic image↔text pipeline to reduce hallucinations</small></div></div>
+          <div class="stat"><span class="dot"></span><div><b>InstructBLIP · SDXL</b><br><small class="muted">Captioning + reconstruction with reward signals</small></div></div>
+          <div class="stat"><span class="dot"></span><div><b>GroundingDINO</b><br><small class="muted">Region alignment checks for factuality</small></div></div>
+        </div>
+      </div>
 
+      <!-- Projects preview -->
+      <section class="container">
+        <div class="section-head">
+          <h2>Highlighted Work</h2>
+          <a class="link" href="project.html">See all →</a>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <span class="chip">Research</span>
+            <a href="project.html#esreal"><h3>ESREAL Replication & Extensions</h3></a>
+            <p>End‑to‑end loop (image→caption→image) with token‑level rewards and alignment metrics.</p>
+          </article>
+          <article class="card">
+            <span class="chip">Course</span>
+            <a href="project.html#csci"><h3>Selected CSCI Projects</h3></a>
+            <p>From regex validators to higher‑order functions, and Kotlin/Compose app demos.</p>
+          </article>
+          <article class="card">
+            <span class="chip">App</span>
+            <a href="project.html#sorcery"><h3>Sorcery Life Counter</h3></a>
+            <p>Android app with multi‑touch first‑player picker and clean Compose UI.</p>
+          </article>
+        </div>
+      </section>
 
-<footer class="social-footer">
-  <a href="https://github.com/AlexieLinardatos" target="_blank" aria-label="GitHub">
-    <!-- GitHub SVG -->
-    <svg height="32" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
-      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 
-        6.53 5.47 7.59.4.07.55-.17.55-.38 
-        0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
-        -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 
-        1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 
-        0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 
-        0 0 .67-.21 2.2.82.64-.18 1.32-.27 
-        2-.27s1.36.09 2 .27c1.53-1.04 
-        2.2-.82 2.2-.82.44 1.1.16 1.92.08 
-        2.12.51.56.82 1.27.82 2.15 
-        0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 
-        1.48 0 1.07-.01 1.93-.01 2.2 0 
-        .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-    </svg>
-  </a>
-  <a href="https://linkedin.com/in/alexie-linardatos/" target="_blank" aria-label="LinkedIn">
-    <!-- LinkedIn SVG -->
-    <svg height="32" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-      <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 
-        4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 
-        4.98 3.5zM.5 8h4V24h-4V8zm7.5 
-        0h3.8v2.2h.1c.5-.9 1.7-2.2 3.5-2.2 
-        3.8 0 4.5 2.5 4.5 5.8V24h-4V14.5c0-2.3-.1-5.2-3.2-5.2
-        -3.2 0-3.7 2.5-3.7 5V24h-4V8z"/>
-    </svg>
-  </a>
-</footer>
-</div>
+      <!-- About / Resume split -->
+      <section class="container split">
+        <div class="panel">
+          <h3>About</h3>
+          <p>Two‑time Rowing Leadership Award recipient. I like simple interfaces, reproducible AI workflows, and documentation that respects your time.</p>
+          <a class="btn btn-ghost" href="about.html">Read more</a>
+        </div>
+        <div class="panel">
+          <h3>Resume</h3>
+          <p>Quick snapshot of skills, projects, and roles. One page. Recruiter‑friendly.</p>
+          <a class="btn btn-solid" href="resume.html">Open resume</a>
+        </div>
+      </section>
+
+      <!-- Social footer (kept, restyled) -->
+      <footer class="social-footer">
+        <a href="https://github.com/AlexieLinardatos" target="_blank" aria-label="GitHub">
+          <svg height="28" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+        </a>
+        <a href="https://linkedin.com/in/alexie-linardatos/" target="_blank" aria-label="LinkedIn">
+          <svg height="28" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-.9 1.7-2.2 3.5-2.2 3.8 0 4.5 2.5 4.5 5.8V24h-4V14.5c0-2.3-.1-5.2-3.2-5.2-3.2 0-3.7 2.5-3.7 5V24h-4V8z"/>
+          </svg>
+        </a>
+      </footer>
+    </main>
+  </div>
 </body>
-
 </html>

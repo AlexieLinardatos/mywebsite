@@ -1,3 +1,40 @@
+/*--resume---*/
+#resume-page html,
+#resume-page body {
+  height: 100%;
+  margin: 0;
+  background: #0b0c0f;
+  color: #e6e6e6;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+#resume-page .wrap {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+#resume-page .frame {
+  width: min(100vw, 100%);
+  height: min(100vh, 100%);
+  border: 0;
+  max-width: 100%;
+}
+
+#resume-page .fallback {
+  text-align: center;
+  padding: 2rem;
+}
+
+#resume-page .btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: .7rem 1rem;
+  background: #1f6feb;
+  color: #fff;
+  text-decoration: none;
+  border-radius: .5rem;
+}
 
   
   /* --- main page --- */
@@ -83,7 +120,7 @@
     .hero-overlay h2,
     .hero-overlay p {
     margin: 10px 0;
-    color: #f1eded; /* You can change to white or dark based on contrast */
+    color: rgba(255, 255, 255, 0.3); /* You can change to white or dark based on contrast */
     }
 
     .hero h1 {
@@ -122,13 +159,13 @@
   left: 0;
   width: 100%;
   transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.3); /* semi-transparent white */
+  background-color: rgba(0, 0, 0, 0.5);
   text-align: center;
   padding: 8px 0;
   z-index: 10;
   font-size:  1.5rem;
   font-weight: bold;
-  color: #000; /* use #fff if your background is dark */
+  color: whitesmoke; /* use #fff if your background is dark */
   backdrop-filter: blur(8px); /* optional: softens background behind */
 }
 

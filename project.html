@@ -1,71 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Projects</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects — Alexie Linardatos</title>
+  <style>
+    :root{ --bg:#0b0c10; --fg:#e6e6e6; --muted:#a8b3cf; --brand:#6ea8ff; --brand-2:#9a8cff; --card:rgba(255,255,255,.06); --glass:rgba(255,255,255,.08); --stroke:rgba(255,255,255,.12); --shadow:0 10px 30px rgba(0,0,0,.35); --radius-2xl:24px }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{margin:0; color:var(--fg); background:radial-gradient(1200px 800px at 15% 10%, rgba(110,168,255,.18), transparent 60%), radial-gradient(900px 600px at 85% 30%, rgba(154,140,255,.14), transparent 60%), linear-gradient(180deg,#0b0c10 0%,#0f1117 100%); font-family:system-ui,-apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif; line-height:1.6}
 
+    .intro-video{ position:fixed; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; filter:brightness(.4) saturate(1.2) }
+    .bg-overlay{ position:fixed; inset:0; z-index:-1; backdrop-filter: blur(10px); background: radial-gradient(1200px 800px at 20% 20%, rgba(110,168,255,.12), transparent 60%) }
+    @media (prefers-reduced-motion: reduce){ .intro-video{ display:none } }
+
+    .page-wrapper{ min-height:100dvh; display:flex; flex-direction:column }
+    main{ flex:1; display:grid; gap:28px; padding:28px 20px 64px }
+    .container{ width:min(1100px,92vw); margin-inline:auto }
+
+    /* Header (kept) */
+    nav{ position:sticky; top:0; z-index:10; backdrop-filter:saturate(1.2) blur(8px); background:linear-gradient(180deg, rgba(15,17,23,.65), rgba(15,17,23,.25)); border-bottom:1px solid var(--stroke) }
+    .nav-links{ display:flex; gap:18px; align-items:center; padding:14px 22px; width:min(1100px,92vw); margin:0 auto }
+    .nav-links a{ color:var(--fg); text-decoration:none; font-weight:600; opacity:.92 }
+    .nav-links a:hover,.nav-links a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px }
+
+    /* Hero bar */
+    .hero-card{ background:var(--glass); border:1px solid var(--stroke); border-radius:var(--radius-2xl); box-shadow:var(--shadow); padding:24px 24px }
+    .hero-top{ display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap }
+    .hero-title{ margin:0; font-size:clamp(24px,4.8vw,36px) }
+    .accent{ background:linear-gradient(90deg,var(--brand),var(--brand-2)); -webkit-background-clip:text; background-clip:text; color:transparent }
+    .hero-help{ color:var(--muted); margin:0 }
+
+    .tools{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:12px }
+    .search{ appearance:none; background:rgba(0,0,0,.2); color:var(--fg); border:1px solid var(--stroke); border-radius:12px; padding:10px 12px; min-width:220px }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--stroke); background:var(--card); color:var(--muted); cursor:pointer; user-select:none }
+    .pill.active{ background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b0c10; border-color:transparent }
+
+    /* Grid */
+    .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px }
+    .card{ display:grid; grid-template-rows: 160px auto; background:var(--card); border:1px solid var(--stroke); border-radius:18px; overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease }
+    .card:hover{ transform: translateY(-4px); border-color: rgba(110,168,255,.6); box-shadow: 0 15px 30px rgba(0,0,0,.35) }
+    .thumb{ width:100%; height:100%; object-fit:cover }
+    .card-body{ padding:14px; display:grid; gap:8px }
+    .tag{ display:inline-flex; align-items:center; gap:8px; font-size:.8rem; padding:6px 10px; border:1px solid var(--stroke); color:var(--muted); border-radius:999px }
+    .card h3{ margin:0; font-size:1.05rem }
+    .card p{ margin:0; color:var(--muted); font-size:.95rem }
+    .meta{ display:flex; gap:8px; flex-wrap:wrap }
+    .actions{ display:flex; gap:10px; margin-top:6px }
+    .btn{ appearance:none; border:1px solid var(--stroke); background:transparent; color:var(--fg); border-radius:10px; padding:8px 10px; font-weight:700; cursor:pointer }
+    .btn:hover{ border-color: rgba(110,168,255,.6) }
+    .btn-solid{ background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b0c10; border:none }
+
+    /* Details drawer */
+    .drawer{ position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:flex-end; justify-content:center; z-index:30 }
+    .drawer.open{ display:flex }
+    .drawer-panel{ width:min(900px, 92vw); max-height:80vh; overflow:auto; background:var(--glass); border:1px solid var(--stroke); border-radius:20px 20px 0 0; box-shadow:var(--shadow); padding:20px }
+    .drawer h3{ margin:6px 0 8px }
+    .drawer .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 }
+    .chips .chip{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid var(--stroke); background:var(--card); color:var(--muted); font-size:.85rem }
+
+    footer.social-footer{ display:flex; gap:14px; align-items:center; justify-content:center; padding:28px 0; border-top:1px solid var(--stroke); margin-top:6px }
+    footer.social-footer a{ display:inline-flex; padding:10px; border-radius:12px; background:var(--card); border:1px solid var(--stroke) }
+
+    @media (max-width: 960px){ .grid{ grid-template-columns:1fr 1fr } }
+    @media (max-width: 640px){ .grid{ grid-template-columns:1fr } }
+  </style>
 </head>
-
 <body>
+  <video class="intro-video" autoplay muted loop playsinline>
+    <source src="videos/background1.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div class="bg-overlay" aria-hidden="true"></div>
 
-  <nav>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="project.html">Projects</a>
-      <a href="#">Photos</a>
-    </div>
-  </nav>
-
-  <h2 class="section-title">Thesis</h2>
-  <div class="project-grid">
-    <div class="project-card" onclick="toggleDetails(this)">
-      <img src="images/esreal.png" alt="ESREAL Project Screenshot">
-      <div class="project-title">ESREAL: Evaluating Hallucinations in Vision-Language Models</div>
-      <div class="project-details">
-        <p>ESREAL is my master's thesis project—a framework for detecting and reducing hallucinations in vision-language models. It combines CLIPCap, Stable Diffusion, GroundingDINO, and InstructBLIP in a PPO training loop to ensure outputs remain grounded and coherent.</p>
+  <div class="page-wrapper">
+    <nav>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="project.html" class="active">Projects</a>
+        <a href="resume.html">Resume</a>
+        <a href="#">Photos</a>
       </div>
-    </div>
+    </nav>
+
+    <main>
+      <!-- Hero / controls -->
+      <section class="container hero-card">
+        <div class="hero-top">
+          <h1 class="hero-title">Projects <span class="accent">Showcase</span></h1>
+          <p class="hero-help">Filter and explore. Click a card for details.</p>
+        </div>
+        <div class="tools">
+          <input id="search" class="search" placeholder="Search projects… (e.g., ESREAL, Kotlin, PyTorch)" />
+          <div class="pill active" data-filter="all">All</div>
+          <div class="pill" data-filter="thesis">Thesis</div>
+          <div class="pill" data-filter="research">Research</div>
+          <div class="pill" data-filter="course">Course</div>
+          <div class="pill" data-filter="app">App</div>
+          <div class="pill" data-filter="viz">Viz</div>
+        </div>
+      </section>
+
+      <!-- Grid -->
+      <section class="container">
+        <div class="grid" id="grid">
+          <!-- ESREAL -->
+          <article class="card" data-tags="thesis research pytorch vision-language esreal" data-title="ESREAL Replication & Extensions">
+            <img class="thumb" src="images/esreal.png" alt="ESREAL preview"/>
+            <div class="card-body">
+              <span class="tag">Thesis</span>
+              <h3>ESREAL Replication & Extensions</h3>
+              <p>Cyclic image↔text pipeline with InstructBLIP, SDXL, GroundingDINO, and token‑level rewards for hallucination mitigation.</p>
+              <div class="actions">
+                <button class="btn-solid" data-open="esreal">Learn more</button>
+                <a class="btn" href="https://github.com/AlexieLinardatos" target="_blank">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Sorcery Life Counter -->
+          <article class="card" data-tags="app android kotlin compose multitouch" data-title="Sorcery Life Counter">
+            <img class="thumb" src="images/rowing-app.jpg" alt="Sorcery app"/>
+            <div class="card-body">
+              <span class="tag">App</span>
+              <h3>Sorcery Life Counter (Android)</h3>
+              <p>Compose UI, multi‑touch first‑player picker, animated selection, clean game HUD.</p>
+              <div class="actions">
+                <button class="btn-solid" data-open="sorcery">Learn more</button>
+                <a class="btn" href="https://github.com/AlexieLinardatos" target="_blank">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Regex & Higher-Order functions lab set -->
+          <article class="card" data-tags="course python regex recursion higher-order functions" data-title="CSCI Labs">
+            <img class="thumb" src="images/spam-detection.jpg" alt="CSCI labs"/>
+            <div class="card-body">
+              <span class="tag">Course</span>
+              <h3>Selected CSCI Labs</h3>
+              <p>Regex validators, higher‑order functions & recursion, data processing utilities with unit tests.</p>
+              <div class="actions">
+                <button class="btn-solid" data-open="labs">Learn more</button>
+                <a class="btn" href="https://github.com/AlexieLinardatos" target="_blank">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Rowing Viz -->
+          <article class="card" data-tags="viz d3 visualization sports analytics" data-title="Rowing Performance Viz">
+            <img class="thumb" src="images/performance-chart.jpg" alt="Rowing viz"/>
+            <div class="card-body">
+              <span class="tag">Viz</span>
+              <h3>Rowing Performance Visualization</h3>
+              <p>Interactive dashboard prototype with filters and hover highlights for performance trends.</p>
+              <div class="actions">
+                <button class="btn-solid" data-open="viz">Learn more</button>
+                <a class="btn" href="https://github.com/AlexieLinardatos" target="_blank">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Spam Classifier -->
+          <article class="card" data-tags="course nlp python sklearn classifier" data-title="Spam Classifier">
+            <img class="thumb" src="images/spam-detection.jpg" alt="Spam classifier"/>
+            <div class="card-body">
+              <span class="tag">Course</span>
+              <h3>Spam Classifier</h3>
+              <p>Logistic regression baseline with simple text features; clean training loop and evaluation notebook.</p>
+              <div class="actions">
+                <button class="btn-solid" data-open="spam">Learn more</button>
+                <a class="btn" href="https://github.com/AlexieLinardatos" target="_blank">GitHub</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Drawer content (hidden templates) -->
+      <div id="drawer" class="drawer" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="drawer-panel" id="drawerBody"></div>
+      </div>
+
+      <template id="tpl-esreal">
+        <h3>ESREAL Replication & Extensions</h3>
+        <div class="chips">
+          <span class="chip">InstructBLIP</span>
+          <span class="chip">SDXL / SD3.1</span>
+          <span class="chip">GroundingDINO</span>
+          <span class="chip">PyTorch</span>
+        </div>
+        <p>
+          End‑to‑end loop: image → caption (InstructBLIP) → reconstructed image (SDXL/SD3.1) → region alignment checks (GroundingDINO) → token‑level rewards. 
+          Focus: reducing hallucinations and improving factual grounding.
+        </p>
+        <div class="actions">
+          <a class="btn-solid" href="project.html#esreal" target="_self">Project section</a>
+          <a class="btn" href="https://github.com/AlexieLinardatos" target="_blank">GitHub</a>
+        </div>
+      </template>
+
+      <template id="tpl-sorcery">
+        <h3>Sorcery Life Counter (Android)</h3>
+        <div class="chips">
+          <span class="chip">Kotlin</span>
+          <span class="chip">Jetpack Compose</span>
+          <span class="chip">Multi‑touch</span>
+        </div>
+        <p>Player picker using multi‑touch input with animated selection, stateful UI, and clear layout tokens.</p>
+        <div class="actions">
+          <a class="btn" href="https://github.com/AlexieLinardatos" target="_blank">GitHub</a>
+        </div>
+      </template>
+
+      <template id="tpl-labs">
+        <h3>Selected CSCI Labs</h3>
+        <div class="chips">
+          <span class="chip">Python</span>
+          <span class="chip">Unit tests</span>
+          <span class="chip">Regex/Recursion</span>
+        </div>
+        <p>Labs covering regex validators, higher‑order functions & recursion patterns, and small data‑processing utilities with tests.</p>
+        <div class="actions">
+          <a class="btn" href="https://github.com/AlexieLinardatos" target="_blank">GitHub</a>
+        </div>
+      </template>
+
+      <template id="tpl-viz">
+        <h3>Rowing Performance Visualization</h3>
+        <div class="chips">
+          <span class="chip">D3.js</span>
+          <span class="chip">Interactive Viz</span>
+        </div>
+        <p>Small dashboard prototype: interactive lines/bars with filters and hover highlights to explore training metrics.</p>
+        <div class="actions">
+          <a class="btn" href="https://github.com/AlexieLinardatos" target="_blank">GitHub</a>
+        </div>
+      </template>
+
+      <template id="tpl-spam">
+        <h3>Spam Classifier</h3>
+        <div class="chips">
+          <span class="chip">NLP</span>
+          <span class="chip">scikit‑learn</span>
+        </div>
+        <p>Logistic regression baseline with TF‑IDF features; evaluation plots and cross‑validation report.</p>
+        <div class="actions">
+          <a class="btn" href="https://github.com/AlexieLinardatos" target="_blank">GitHub</a>
+        </div>
+      </template>
+
+      <footer class="social-footer">
+        <a href="https://github.com/AlexieLinardatos" target="_blank" aria-label="GitHub">
+          <svg height="28" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/alexie-linardatos/" target="_blank" aria-label="LinkedIn">
+          <svg height="28" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-.9 1.7-2.2 3.5-2.2 3.8 0 4.5 2.5 4.5 5.8V24h-4V14.5c0-2.3-.1-5.2-3.2-5.2-3.2 0-3.7 2.5-3.7 5V24h-4V8z"/></svg>
+        </a>
+      </footer>
+    </main>
   </div>
-
-  <h2 class="section-title">School Projects</h2>
-  <div class="project-grid">
-    <div class="project-card" onclick="toggleDetails(this)">
-      <img src="images/spam-detection.jpg" alt="Spam Filter Project">
-      <div class="project-title">Project A: Spam Classifier</div>
-      <div class="project-details">
-        <p>A Python-based spam filter using NLP and logistic regression. Trained on labeled email datasets to classify spam vs. ham.</p>
-      </div>
-    </div>
-
-    <div class="project-card" onclick="toggleDetails(this)">
-      <img src="images/rowing-app.jpg" alt="Rowing App Screenshot">
-      <div class="project-title">Project B: Rowing Scheduler</div>
-      <div class="project-details">
-        <p>A full-stack web app to manage rowing team training schedules. Built with Flask, SQLite, and Bootstrap.</p>
-      </div>
-    </div>
-
-    <div class="project-card" onclick="toggleDetails(this)">
-      <img src="images/performance-chart.jpg" alt="D3 Visualization">
-      <div class="project-title">Project C: D3 Visualization</div>
-      <div class="project-details">
-        <p>An interactive data viz dashboard using D3.js to plot rowing performance metrics over time, with filters and hoverable highlights.</p>
-      </div>
-    </div>
-  </div>
-
-  <footer class="social-footer">
-    <!-- Your GitHub & LinkedIn SVGs -->
-  </footer>
 
   <script>
-    function toggleDetails(card) {
-      card.classList.toggle('expanded');
+    // Drawer logic
+    const drawer = document.getElementById('drawer');
+    const drawerBody = document.getElementById('drawerBody');
+    function openDrawer(id){
+      const tpl = document.getElementById('tpl-' + id);
+      if(!tpl) return;
+      drawerBody.innerHTML = tpl.innerHTML + '<div style="margin-top:12px; text-align:right"><button class="btn" id="closeDrawer">Close</button></div>';
+      drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden','false');
+      document.getElementById('closeDrawer').onclick = closeDrawer;
     }
-  </script>
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden','true');
+    }
+    drawer.addEventListener('click', (e)=>{ if(e.target === drawer) closeDrawer(); });
 
+    // Bind open buttons
+    document.querySelectorAll('[data-open]').forEach(btn=>{
+      btn.addEventListener('click', ()=> openDrawer(btn.getAttribute('data-open')))
+    });
+
+    // Filter + search
+    const pills = Array.from(document.querySelectorAll('.pill'));
+    const grid = document.getElementById('grid');
+    const cards = Array.from(grid.querySelectorAll('.card'));
+    const search = document.getElementById('search');
+    let currentFilter = 'all';
+
+    function applyFilters(){
+      const q = (search.value || '').toLowerCase();
+      cards.forEach(c=>{
+        const inFilter = currentFilter === 'all' || c.dataset.tags.includes(currentFilter);
+        const inSearch = !q || c.dataset.title.toLowerCase().includes(q) || c.dataset.tags.toLowerCase().includes(q);
+        c.style.display = (inFilter && inSearch) ? '' : 'none';
+      });
+    }
+
+    pills.forEach(p=> p.addEventListener('click', ()=>{
+      pills.forEach(x=> x.classList.remove('active'));
+      p.classList.add('active');
+      currentFilter = p.dataset.filter;
+      applyFilters();
+    }));
+    search.addEventListener('input', applyFilters);
+  </script>
 </body>
 </html>

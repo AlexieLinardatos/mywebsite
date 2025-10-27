@@ -1,54 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>About Me</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Alexie Linardatos</title>
+  <!-- Standalone file that visually matches your homepage.
+       If you moved styles to style.css, you can copy the :root vars and classes there and remove this <style>. -->
+  <style>
+    :root{ --bg:#0b0c10; --fg:#e6e6e6; --muted:#a8b3cf; --brand:#6ea8ff; --brand-2:#9a8cff; --card:rgba(255,255,255,.06); --glass:rgba(255,255,255,.08); --stroke:rgba(255,255,255,.12); --shadow:0 10px 30px rgba(0,0,0,.35); --radius-2xl:24px }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{margin:0; color:var(--fg); background:radial-gradient(1200px 800px at 15% 10%, rgba(110,168,255,.18), transparent 60%), radial-gradient(900px 600px at 85% 30%, rgba(154,140,255,.14), transparent 60%), linear-gradient(180deg,#0b0c10 0%,#0f1117 100%); font-family:system-ui,-apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif; line-height:1.6}
+
+    /* Background video + overlay to match home */
+    .intro-video{ position:fixed; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; filter:brightness(.4) saturate(1.2) }
+    .bg-overlay{ position:fixed; inset:0; z-index:-1; backdrop-filter: blur(10px); background: radial-gradient(1200px 800px at 20% 20%, rgba(110,168,255,.12), transparent 60%) }
+    @media (prefers-reduced-motion: reduce){ .intro-video{ display:none } }
+
+    .page-wrapper{ min-height:100dvh; display:flex; flex-direction:column }
+    main{ flex:1; display:grid; gap:36px; padding:28px 20px 64px }
+    .container{ width:min(1100px,92vw); margin-inline:auto }
+
+    /* Header (kept exactly as your structure) */
+    nav{ position:sticky; top:0; z-index:10; backdrop-filter:saturate(1.2) blur(8px); background:linear-gradient(180deg, rgba(15,17,23,.65), rgba(15,17,23,.25)); border-bottom:1px solid var(--stroke) }
+    .nav-links{ display:flex; gap:18px; align-items:center; padding:14px 22px; width:min(1100px,92vw); margin:0 auto }
+    .nav-links a{ color:var(--fg); text-decoration:none; font-weight:600; opacity:.92 }
+    .nav-links a:hover,.nav-links a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px }
+
+    /* Shared components to match home */
+    .hero{ position:relative; display:grid; grid-template-columns:1fr; gap:28px; align-items:center }
+    .hero-card{ background:var(--glass); border:1px solid var(--stroke); border-radius:var(--radius-2xl); box-shadow:var(--shadow); padding:36px; overflow:hidden }
+    .hero-eyebrow{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid var(--stroke); font-size:.86rem; color:var(--muted) }
+    .hero h1{ font-size:clamp(30px,5.6vw,48px); margin:12px 0 8px; line-height:1.15 }
+    .accent{ background:linear-gradient(90deg,var(--brand),var(--brand-2)); -webkit-background-clip:text; background-clip:text; color:transparent }
+    .hero p{ color:var(--muted); font-size:1.06rem; margin:0 0 22px }
+    .cta{ display:flex; gap:12px; flex-wrap:wrap }
+    .btn{ appearance:none; border:none; border-radius:14px; padding:12px 16px; font-weight:700; cursor:pointer; transition:transform .18s ease, background .2s ease, opacity .2s ease }
+    .btn-solid{ background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b0c10 }
+    .btn-ghost{ background:transparent; border:1px solid var(--stroke); color:var(--fg) }
+    .btn:hover{ transform:translateY(-2px) }
+
+    .stat{ display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--stroke); border-radius:18px; padding:16px 18px; backdrop-filter: blur(6px); animation: float 6s ease-in-out infinite }
+    .stat .dot{ width:10px; height:10px; border-radius:999px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow:0 0 0 6px rgba(110,168,255,.12) }
+    @keyframes float{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
+
+    .section-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:18px; margin:6px 0 12px }
+    .section-head h2{ margin:0; font-size:1.3rem }
+
+    .split{ display:grid; grid-template-columns:1fr 1fr; gap:16px }
+    .panel{ background:var(--card); border:1px solid var(--stroke); border-radius:18px; padding:20px }
+    .panel h3{ margin:6px 0 8px }
+    .panel p{ margin:0; color:var(--muted) }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px }
+    .chip{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--stroke); background:var(--card); color:var(--muted); font-size:.9rem }
+
+    /* Timeline */
+    .timeline{ display:grid; gap:12px }
+    .t-item{ display:grid; grid-template-columns: 120px 1fr; gap:16px; align-items:start; background:var(--card); border:1px solid var(--stroke); border-radius:16px; padding:14px 16px }
+    .t-date{ color:var(--muted); font-weight:700 }
+    .t-item h3{ margin:0 0 4px; font-size:1.05rem }
+    .t-item p{ margin:0; color:var(--muted) }
+
+    /* Gallery stripe */
+    .gallery{ display:grid; grid-template-columns: 2fr 1fr; gap:12px }
+    .g-main{ position:relative }
+    .g-main img, .g-side img{ width:100%; height:100%; object-fit:cover; border-radius:16px; border:1px solid var(--stroke) }
+    .g-side{ display:grid; gap:12px }
+    .caption{ position:absolute; left:12px; bottom:12px; padding:6px 10px; background:rgba(0,0,0,.35); border:1px solid var(--stroke); color:#fff; border-radius:999px; font-size:.82rem; backdrop-filter: blur(6px) }
+
+    footer.social-footer{ display:flex; gap:14px; align-items:center; justify-content:center; padding:28px 0; border-top:1px solid var(--stroke); margin-top:10px }
+    footer.social-footer a{ display:inline-flex; padding:10px; border-radius:12px; background:var(--card); border:1px solid var(--stroke) }
+    footer.social-footer a:hover{ border-color: rgba(110,168,255,.6) }
+
+    /* Reveal on scroll */
+    .reveal{ opacity:0; transform: translateY(8px); transition: opacity .6s ease, transform .6s ease }
+    .reveal.visible{ opacity:1; transform:none }
+
+    /* Responsive */
+    @media (max-width: 960px){ .hero{ grid-template-columns:1fr } .split{ grid-template-columns:1fr } .gallery{ grid-template-columns:1fr } }
+  </style>
 </head>
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.2 });
-
-  document.querySelectorAll('.about-text').forEach(el => {
-    observer.observe(el);
-  });
-</script>
-
 <body>
+  <!-- Background video to match home -->
+  <video class="intro-video" autoplay muted loop playsinline>
+    <source src="videos/background1.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div class="bg-overlay" aria-hidden="true"></div>
 
- <nav>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="project.html">Projects</a>
-      <a href="#">Photos</a>
-    </div>
-  </nav> 
+  <div class="page-wrapper">
+    <!-- Header (kept exactly) -->
+    <nav>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="project.html">Projects</a>
+        <a href="resume.html">Resume</a>
+        <a href="#">Photos</a>
+      </div>
+    </nav>
 
-  <section class="about-section">
-    <div class="image-fade">
-  <img src="images/pic1.jpg" alt="Rowing at sunrise" class="about-img img-rowing">
-  </div>
-  <div class="about-text">
-    <h2>Who I Am</h2>
-    <p>I completed my undergraduate degree in Computer Science with a minor in Mathematics at Ontario Tech University, where I was also a varsity rower. I'm currently pursuing a master's degree focused on hallucination detection in vision-language models — investigating how AI systems interpret, reason about, and sometimes hallucinate descriptions of visual content. As both a researcher and athlete, I’m driven by curiosity, discipline, and the pursuit of precision — whether I’m training on the water or building intelligent systems.</p>
-  </div>
-</section>
+    <main>
+      <!-- Hero matches home: left card, right stats -->
+      <section class="container hero">
+        <div class="hero-card reveal">
+          <span class="hero-eyebrow"><span>👋</span> About</span>
+          <h1>I'm <span class="accent">Alexie</span> — I build human‑centric AI and clean UI.</h1>
+          <p>
+            Master’s student at Ontario Tech focused on hallucination detection & mitigation in vision‑language models. 
+            My work blends research and product sense: cyclic image↔text pipelines, measurable alignment, and interfaces that stay out of your way.
+          </p>
+          <div class="chips">
+            <span class="chip">🎓 CS + Math minor</span>
+            <span class="chip">🚣‍♀️ 2× Rowing Leadership Award</span>
+            <span class="chip">🧠 ESREAL · InstructBLIP · SDXL</span>
+            <span class="chip">📱 Kotlin/Compose · PyTorch</span>
+          </div>
+          <div class="cta" style="margin-top:14px">
+            <a class="btn btn-solid" href="project.html">View Projects</a>
+            <a class="btn btn-ghost" href="resume.html">Open Resume</a>
+          </div>
+        </div>
+        <div class="hero-side reveal" style="display:grid; gap:14px">
+          <div class="stat"><span class="dot"></span><div><b>Cyclic pipeline</b><br><small class="muted">image → caption → image</small></div></div>
+          <div class="stat"><span class="dot"></span><div><b>GroundingDINO</b><br><small class="muted">region alignment checks</small></div></div>
+          <div class="stat"><span class="dot"></span><div><b>Reward shaping</b><br><small class="muted">token‑level hallucination scores</small></div></div>
+        </div>
+      </section>
 
-<section class="about-section">
-     <div class="image-fade">
-  <img src="images/pic2.jpg" alt="Me coding" class="about-img img-friends">
-  </div>
-  <div class="about-text">
-    <h2>What I Do</h2>
-    <p>Whether it's design, animation, or development — I enjoy bringing creative ideas to life with clean, responsive code.</p>
-  </div>
-</section>
+      <!-- Now & Then timeline -->
+      <section class="container">
+        <div class="section-head"><h2>Now & then</h2></div>
+        <div class="timeline">
+          <div class="t-item reveal">
+            <div class="t-date">2025 — Now</div>
+            <div>
+              <h3>Master's Researcher · Vision‑Language Hallucination Mitigation</h3>
+              <p>Extending ESREAL: cyclic image↔text pipeline with InstructBLIP, SDXL, and GroundingDINO; building token‑level reward signals and alignment metrics.</p>
+            </div>
+          </div>
+          <div class="t-item reveal">
+            <div class="t-date">2024 — Now</div>
+            <div>
+              <h3>Teaching Assistant · CSCI 2020U (System Dev & Integration)</h3>
+              <p>Supported labs, debugging, and Docker/pytest autograder issues; authored clear, reproducible instructions for students.</p>
+            </div>
+          </div>
+          <div class="t-item reveal">
+            <div class="t-date">2023 — 2025</div>
+            <div>
+              <h3>Student‑Athlete Mentor & Rowing Leadership Council</h3>
+              <p>Mentored varsity athletes and coordinated initiatives; recognized with two Rowing Leadership Awards.</p>
+            </div>
+          </div>
+          <div class="t-item reveal">
+            <div class="t-date">Summer 2022</div>
+            <div>
+              <h3>Lab Coordinator · vialab (Dr. Christopher Collins)</h3>
+              <p>Coordinated research activities and supported HCI/ML projects within the lab. <small>Source: vialab team page.</small></p>
+            </div>
+          </div>
+          <div class="t-item reveal">
+            <div class="t-date">2021 — 2024</div>
+            <div>
+              <h3>B.Sc. Computer Science · Minor in Mathematics</h3>
+              <p>Ontario Tech University — coursework in algorithms, systems, UX; varsity rowing.
+              </p>
+            </div>
+          </div>
+          <div class="t-item reveal">
+            <div class="t-date">Ongoing</div>
+            <div>
+              <h3>Lifeguard & Swim Instructor</h3>
+              <p>Taught lifesaving lessons and community swim programs; safety‑first, patient instruction style.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      <!-- Values / Interests panels -->
+      <section class="container split">
+        <div class="panel reveal">
+          <h3>Values</h3>
+          <p>Clarity over cleverness; measure first, then optimize; accessibility isn’t optional.</p>
+        </div>
+        <div class="panel reveal">
+          <h3>Interests</h3>
+          <p>Vision‑language models, alignment metrics, Android UI patterns, documentation systems, and small tools that remove friction.</p>
+        </div>
+      </section>
+
+      <!-- Gallery stripe for visual rhythm -->
+      <section class="container gallery">
+        <div class="g-main reveal">
+          <img src="images/pic2.jpg" alt="Coding session" />
+          <span class="caption">Creating clean, reproducible systems</span>
+        </div>
+        <div class="g-side reveal">
+          <img src="images/pic1.jpg" alt="Rowing focus" />
+          <img src="images/pic3.jpg" alt="Notebook planning" />
+        </div>
+      </section>
+
+      <!-- Social footer (same as home) -->
+      <footer class="social-footer">
+        <a href="https://github.com/AlexieLinardatos" target="_blank" aria-label="GitHub">
+          <svg height="28" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/alexie-linardatos/" target="_blank" aria-label="LinkedIn">
+          <svg height="28" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-.9 1.7-2.2 3.5-2.2 3.8 0 4.5 2.5 4.5 5.8V24h-4V14.5c0-2.3-.1-5.2-3.2-5.2-3.2 0-3.7 2.5-3.7 5V24h-4V8z"/></svg>
+        </a>
+      </footer>
+    </main>
+  </div>
+
+  <!-- IntersectionObserver for reveals -->
+  <script>
+    (function(){
+      const els = document.querySelectorAll('.reveal');
+      if(!('IntersectionObserver' in window) || !els.length){ els.forEach(el=> el.classList.add('visible')); return; }
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+      }, { threshold: 0.15 });
+      els.forEach(el=> io.observe(el));
+    })();
+  </script>
 </body>
 </html>

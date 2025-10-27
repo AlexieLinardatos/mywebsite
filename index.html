@@ -7,18 +7,15 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Background video (kept) -->
   <video class="intro-video" autoplay muted loop playsinline>
     <source src="videos/background1.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
   </video>
   <div class="bg-overlay" aria-hidden="true"></div>
 
   <div class="page-wrapper">
-    <!-- Header (kept exactly) -->
     <nav>
       <div class="nav-links">
-        <a href="index.html">Home</a>
+        <a href="index.html" class="active">Home</a>
         <a href="about.html">About</a>
         <a href="project.html">Projects</a>
         <a href="resume.html">Resume</a>
@@ -27,14 +24,14 @@
     </nav>
 
     <main>
-      <!-- Two-column hero -->
-      <div class="container hero two-col">
+      <!-- FULL-WIDTH hero -->
+      <div class="container hero one-col">
         <div class="hero-card">
-          <span class="hero-eyebrow" aria-label="intro tag"><span>👋</span> Hello</span>
-          <h1>I'm <span class="accent">Alexie Linardatos</span> — building human-centric AI and clean UI.</h1>
+          <span class="hero-eyebrow"><span>👋</span> Hello</span>
+          <h1>I'm <span class="accent">Alexie Linardatos</span></h1>
           <p>
-            Master’s student exploring hallucination detection & mitigation in vision-language models. 
-            On this site you’ll find my thesis work, school projects, and a resume you can skim in 30 seconds.
+            Master’s student exploring hallucination detection & mitigation in vision-language models.
+            On this site you’ll find my thesis work, school projects, and a resume hope you enjoy!
           </p>
           <div class="cta">
             <a class="btn btn-solid" href="project.html">View Projects</a>
@@ -42,39 +39,39 @@
             <a class="btn btn-ghost" href="about.html">About Me</a>
           </div>
         </div>
-        <div class="hero-side">
-          <div class="stat"><span class="dot"></span><div><b>ESREAL</b><br><small class="muted">Cyclic image↔text pipeline to reduce hallucinations</small></div></div>
-          <div class="stat"><span class="dot"></span><div><b>InstructBLIP · SDXL</b><br><small class="muted">Captioning + reconstruction with reward signals</small></div></div>
-          <div class="stat"><span class="dot"></span><div><b>GroundingDINO</b><br><small class="muted">Region alignment checks for factuality</small></div></div>
-        </div>
-      </div>
 
-      <!-- Projects preview -->
-      <section class="container">
-        <div class="section-head">
-          <h2>Highlighted Work</h2>
-          <a class="link" href="project.html">See all →</a>
-        </div>
-        <div class="grid">
-          <article class="card no-thumb">
-            <span class="chip">Research</span>
-            <a href="project.html#esreal"><h3>ESREAL Replication & Extensions</h3></a>
-            <p>End-to-end loop (image→caption→image) with token-level rewards and alignment metrics.</p>
-          </article>
-          <article class="card no-thumb">
-            <span class="chip">Course</span>
-            <a href="project.html#csci"><h3>Selected CSCI Projects</h3></a>
-            <p>From regex validators to higher-order functions, and Kotlin/Compose app demos.</p>
-          </article>
-          <article class="card no-thumb">
-            <span class="chip">App</span>
-            <a href="project.html#sorcery"><h3>Sorcery Life Counter</h3></a>
-            <p>Android app with multi-touch first-player picker and clean Compose UI.</p>
-          </article>
-        </div>
-      </section>
+        <!-- Floating side cards with your highlights -->
+        <div class="hero-side home-stats">
+          <a class="stat" href="project.html#esreal">
+            <span class="dot"></span>
+            <div class="stat-body">
+              <div class="tag">Research</div>
+              <b>ESREAL Recreation</b><br>
+              <small class="muted"></small>a framework that detects and mitigates hallucinations in vision-language models by cyclically generating and comparing images and captions to ensure factual alignment.</small>
+           </div>
+          </a>
 
-      <!-- About / Resume split -->
+          <a class="stat" href="project.html#csci">
+            <span class="dot"></span>
+            <div class="stat-body">
+              <div class="tag">Course</div>
+              <b>Selected CSCI Projects</b><br>
+              <small class="muted">Regex validators, higher-order functions/recursion, Kotlin/Compose demos.</small>
+            </div>
+          </a>
+
+          <a class="stat" href="project.html#sorcery">
+            <span class="dot"></span>
+            <div class="stat-body">
+              <div class="tag">App</div>
+              <b>Essence Life Counter</b><br>
+              <small class="muted">Essense is an Android life counter app for Sorcery: Contested Realm, built with Kotlin, Jetpack Compose, and modern Material 3 UI design for smooth, intuitive gameplay tracking.</small>
+            </div>
+          </a>
+        </div>
+
+
+      <!-- About / Resume split (unchanged) -->
       <section class="container split">
         <div class="panel">
           <h3>About</h3>
@@ -88,7 +85,6 @@
         </div>
       </section>
 
-      <!-- Social footer -->
       <footer class="social-footer">
         <a href="https://github.com/AlexieLinardatos" target="_blank" aria-label="GitHub">
           <svg height="28" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

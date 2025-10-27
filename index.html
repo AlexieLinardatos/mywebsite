@@ -4,118 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Alexie Linardatos — Home</title>
-  <!-- Single‑file demo: inline CSS so you can paste into index.html. 
-       If you prefer external CSS, move everything inside <style> to style.css. -->
-  <style>
-    /* ---------- Base & Theme ---------- */
-    :root{
-      --bg: #0b0c10;
-      --fg: #e6e6e6;
-      --muted: #a8b3cf;
-      --brand: #6ea8ff;
-      --brand-2: #9a8cff;
-      --card: rgba(255,255,255,.06);
-      --glass: rgba(255,255,255,.08);
-      --stroke: rgba(255,255,255,.12);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius-2xl: 24px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      color:var(--fg);
-      background: radial-gradient(1200px 800px at 15% 10%, rgba(110,168,255,.18), transparent 60%),
-                  radial-gradient(900px 600px at 85% 30%, rgba(154,140,255,.14), transparent 60%),
-                  linear-gradient(180deg, #0b0c10 0%, #0f1117 100%);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
-      line-height:1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    /* ---------- Background Video ---------- */
-    .intro-video{ 
-      position:fixed; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; filter:brightness(.4) saturate(1.2); 
-    }
-    .bg-overlay{ position:fixed; inset:0; z-index:-1; backdrop-filter: blur(10px); background: radial-gradient(1200px 800px at 20% 20%, rgba(110,168,255,.12), transparent 60%) }
-    @media (prefers-reduced-motion: reduce){ .intro-video{ display:none } }
-
-    /* ---------- Layout Wrappers ---------- */
-    .page-wrapper{ min-height:100dvh; display:flex; flex-direction:column }
-    main{ flex:1; display:grid; place-items:stretch; gap:48px; padding:28px 20px 64px }
-    .container{ width:min(1100px, 92vw); margin-inline:auto }
-
-    /* ---------- Header (kept as-is structurally) ---------- */
-    nav{ position:sticky; top:0; z-index:10; backdrop-filter:saturate(1.2) blur(8px); background:linear-gradient(180deg, rgba(15,17,23,.65), rgba(15,17,23,.25)); border-bottom:1px solid var(--stroke) }
-    .nav-links{ display:flex; gap:18px; align-items:center; padding:14px 22px; width:min(1100px,92vw); margin:0 auto }
-    .nav-links a{ color:var(--fg); text-decoration:none; font-weight:600; opacity:.92 }
-    .nav-links a:hover{ opacity:1; text-underline-offset:4px; text-decoration:underline }
-
-    /* ---------- Hero ---------- */
-    .hero{ position:relative; display:grid; grid-template-columns:1.2fr .8fr; gap:28px; align-items:center }
-    .hero-card{ background:var(--glass); border:1px solid var(--stroke); border-radius:var(--radius-2xl); box-shadow:var(--shadow); padding:36px; overflow:hidden }
-    .hero-eyebrow{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid var(--stroke); font-size:.86rem; color:var(--muted) }
-    .hero h1{ font-size:clamp(32px, 6vw, 52px); margin:14px 0 8px; line-height:1.15 }
-    .hero h1 .accent{ background: linear-gradient(90deg, var(--brand), var(--brand-2)); -webkit-background-clip:text; background-clip:text; color:transparent }
-    .hero p{ color:var(--muted); font-size:1.06rem; margin:0 0 22px }
-    .cta{ display:flex; gap:12px; flex-wrap:wrap }
-    .btn{ appearance:none; border:none; border-radius:14px; padding:12px 16px; font-weight:700; cursor:pointer; transition:transform .18s ease, background .2s ease, opacity .2s ease }
-    .btn-solid{ background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b0c10 }
-    .btn-ghost{ background:transparent; border:1px solid var(--stroke); color:var(--fg) }
-    .btn:hover{ transform:translateY(-2px) }
-
-    .hero-side{ display:grid; gap:14px }
-    .stat{
-      display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--stroke); border-radius:18px; padding:16px 18px; backdrop-filter: blur(6px);
-      animation: float 6s ease-in-out infinite
-    }
-    .stat .dot{ width:10px; height:10px; border-radius:999px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow:0 0 0 6px rgba(110,168,255,.12) }
-    .stat b{ font-size:1.05rem }
-    @keyframes float{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
-
-    /* ---------- Sections ---------- */
-    section{ margin-top:22px }
-    .section-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:18px; margin-bottom:16px }
-    .section-head h2{ margin:0; font-size:1.4rem; letter-spacing:.3px }
-    .link{ color:var(--muted); text-decoration:none }
-    .link:hover{ color:var(--fg); text-decoration:underline; text-underline-offset:4px }
-
-    /* Projects Grid */
-    .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px }
-    .card{
-      display:grid; gap:10px; background:var(--card); border:1px solid var(--stroke); border-radius:18px; padding:16px; min-height:140px; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease; 
-    }
-    .card:hover{ transform: translateY(-4px); border-color: rgba(110,168,255,.6); box-shadow: 0 15px 30px rgba(0,0,0,.35) }
-    .chip{ display:inline-flex; align-items:center; gap:8px; font-size:.8rem; padding:6px 10px; border:1px solid var(--stroke); color:var(--muted); border-radius:999px }
-    .card h3{ margin:4px 0 2px; font-size:1.05rem }
-    .card p{ margin:0; color:var(--muted); font-size:.95rem }
-    .card a{ text-decoration:none; color:inherit }
-
-    /* About/Resume Split */
-    .split{ display:grid; grid-template-columns:1fr 1fr; gap:16px }
-    .panel{ background:var(--card); border:1px solid var(--stroke); border-radius:18px; padding:20px }
-    .panel h3{ margin:6px 0 8px }
-    .panel p{ margin:0 0 14px; color:var(--muted) }
-
-    /* ---------- Footer ---------- */
-    footer.social-footer{ display:flex; gap:14px; align-items:center; justify-content:center; padding:28px 0; border-top:1px solid var(--stroke); margin-top:28px }
-    footer.social-footer a{ display:inline-flex; padding:10px; border-radius:12px; background:var(--card); border:1px solid var(--stroke) }
-    footer.social-footer a:hover{ border-color: rgba(110,168,255,.6) }
-
-    /* ---------- Responsive ---------- */
-    @media (max-width: 960px){
-      .hero{ grid-template-columns:1fr; }
-      .grid{ grid-template-columns:1fr 1fr }
-      .split{ grid-template-columns:1fr }
-    }
-    @media (max-width: 640px){
-      .grid{ grid-template-columns:1fr }
-      .nav-links{ justify-content:center; flex-wrap:wrap }
-      .hero-card{ padding:24px }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Background video (kept) -->
@@ -126,7 +15,7 @@
   <div class="bg-overlay" aria-hidden="true"></div>
 
   <div class="page-wrapper">
-    <!-- Header (kept exactly, only styled) -->
+    <!-- Header (kept exactly) -->
     <nav>
       <div class="nav-links">
         <a href="index.html">Home</a>
@@ -138,12 +27,13 @@
     </nav>
 
     <main>
-      <div class="container hero">
+      <!-- Two-column hero -->
+      <div class="container hero two-col">
         <div class="hero-card">
           <span class="hero-eyebrow" aria-label="intro tag"><span>👋</span> Hello</span>
-          <h1>I'm <span class="accent">Alexie Linardatos</span> — building human‑centric AI and clean UI.</h1>
+          <h1>I'm <span class="accent">Alexie Linardatos</span> — building human-centric AI and clean UI.</h1>
           <p>
-            Master’s student exploring hallucination detection & mitigation in vision‑language models. 
+            Master’s student exploring hallucination detection & mitigation in vision-language models. 
             On this site you’ll find my thesis work, school projects, and a resume you can skim in 30 seconds.
           </p>
           <div class="cta">
@@ -166,20 +56,20 @@
           <a class="link" href="project.html">See all →</a>
         </div>
         <div class="grid">
-          <article class="card">
+          <article class="card no-thumb">
             <span class="chip">Research</span>
             <a href="project.html#esreal"><h3>ESREAL Replication & Extensions</h3></a>
-            <p>End‑to‑end loop (image→caption→image) with token‑level rewards and alignment metrics.</p>
+            <p>End-to-end loop (image→caption→image) with token-level rewards and alignment metrics.</p>
           </article>
-          <article class="card">
+          <article class="card no-thumb">
             <span class="chip">Course</span>
             <a href="project.html#csci"><h3>Selected CSCI Projects</h3></a>
-            <p>From regex validators to higher‑order functions, and Kotlin/Compose app demos.</p>
+            <p>From regex validators to higher-order functions, and Kotlin/Compose app demos.</p>
           </article>
-          <article class="card">
+          <article class="card no-thumb">
             <span class="chip">App</span>
             <a href="project.html#sorcery"><h3>Sorcery Life Counter</h3></a>
-            <p>Android app with multi‑touch first‑player picker and clean Compose UI.</p>
+            <p>Android app with multi-touch first-player picker and clean Compose UI.</p>
           </article>
         </div>
       </section>
@@ -188,17 +78,17 @@
       <section class="container split">
         <div class="panel">
           <h3>About</h3>
-          <p>Two‑time Rowing Leadership Award recipient. I like simple interfaces, reproducible AI workflows, and documentation that respects your time.</p>
+          <p>Two-time Rowing Leadership Award recipient. I like simple interfaces, reproducible AI workflows, and documentation that respects your time.</p>
           <a class="btn btn-ghost" href="about.html">Read more</a>
         </div>
         <div class="panel">
           <h3>Resume</h3>
-          <p>Quick snapshot of skills, projects, and roles. One page. Recruiter‑friendly.</p>
+          <p>Quick snapshot of skills, projects, and roles. One page. Recruiter-friendly.</p>
           <a class="btn btn-solid" href="resume.html">Open resume</a>
         </div>
       </section>
 
-      <!-- Social footer (kept, restyled) -->
+      <!-- Social footer -->
       <footer class="social-footer">
         <a href="https://github.com/AlexieLinardatos" target="_blank" aria-label="GitHub">
           <svg height="28" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

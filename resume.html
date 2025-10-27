@@ -1,34 +1,44 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-  <title>resume</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resume — Alexie Linardatos</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-  <body id="resume-page">
-    
-  <nav>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="project.html">Projects</a>
-      <a href="resume.html">Resume</a>
-      <a href="#">Photos</a>
-    </div>
-  </nav>
-  
+<body>
+  <video class="intro-video" autoplay muted loop playsinline>
+    <source src="videos/background1.mp4" type="video/mp4" />
+  </video>
+  <div class="bg-overlay" aria-hidden="true"></div>
 
-  <div class="wrap">
-    <object class="frame" data="resume.pdf" type="application/pdf">
-      <div class="fallback">
-        <p>Your browser can’t display the PDF inline.</p>
-        <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Open / Download Resume</a>
+  <div class="page-wrapper">
+    <nav>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="project.html">Projects</a>
+        <a href="resume.html" class="active">Resume</a>
+        <a href="#">Photos</a>
       </div>
-    </object>
+    </nav>
+
+    <main>
+      <section class="resume-wrap">
+        <!-- Prefer <iframe>; <object> works too -->
+        <iframe
+          class="resume-frame"
+          src="docs/resume.pdf#view=FitH&zoom=page-width"
+          title="Alexie Linardatos — Resume"
+        ></iframe>
+
+        <!-- Fallback actions -->
+        <div class="resume-fallback">
+          <a class="btn btn-solid" href="docs/resume.pdf" download>Download PDF</a>
+          <a class="btn btn-ghost" href="docs/resume.pdf" target="_blank">Open in new tab</a>
+        </div>
+      </section>
+    </main>
   </div>
 </body>
-
 </html>

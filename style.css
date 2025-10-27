@@ -1,407 +1,333 @@
-/*--resume---*/
-#resume-page html,
-#resume-page body {
-  height: 100%;
-  margin: 0;
-  background: #0b0c0f;
-  color: #e6e6e6;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+/* ---------- Theme ---------- */
+:root{
+  --bg:#0b0c10; --fg:#e6e6e6; --muted:#a8b3cf;
+  --brand:#6ea8ff; --brand-2:#9a8cff;
+  --card:rgba(255,255,255,.06); --glass:rgba(255,255,255,.08);
+  --stroke:rgba(255,255,255,.12);
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --radius-2xl:24px;
 }
 
-#resume-page .wrap {
-  height: 100%;
-  display: grid;
-  place-items: center;
+*{ box-sizing:border-box }
+html,body{ height:100% }
+html{ scroll-behavior:smooth }
+body{
+  margin:0; color:var(--fg);
+  background:
+    radial-gradient(1200px 800px at 15% 10%, rgba(110,168,255,.18), transparent 60%),
+    radial-gradient(900px 600px at 85% 30%, rgba(154,140,255,.14), transparent 60%),
+    linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
 }
 
-#resume-page .frame {
-  width: min(100vw, 100%);
-  height: min(100vh, 100%);
-  border: 0;
-  max-width: 100%;
+/* ---------- Background video (used on all pages) ---------- */
+.intro-video{
+  position:fixed; inset:0; width:100%; height:100%;
+  object-fit:cover; z-index:-2; filter:brightness(.4) saturate(1.2);
+}
+.bg-overlay{
+  position:fixed; inset:0; z-index:-1;
+  backdrop-filter: blur(10px);
+  background: radial-gradient(1200px 800px at 20% 20%, rgba(110,168,255,.12), transparent 60%);
+}
+@media (prefers-reduced-motion: reduce){ .intro-video{ display:none } }
+
+/* ---------- Layout ---------- */
+.page-wrapper{ min-height:100dvh; display:flex; flex-direction:column }
+main{ flex:1; display:grid; gap:28px; padding:28px 20px 64px }
+.container{ width:min(1100px,92vw); margin-inline:auto }
+
+/* ---------- Header (keep your HTML) ---------- */
+nav{
+  position:sticky; top:0; z-index:10;
+  backdrop-filter:saturate(1.2) blur(8px);
+  background:linear-gradient(180deg, rgba(15,17,23,.65), rgba(15,17,23,.25));
+  border-bottom:1px solid var(--stroke);
+}
+.nav-links{
+  display:flex; gap:18px; align-items:center;
+  padding:14px 22px; width:min(1100px,92vw); margin:0 auto;
+}
+.nav-links a{
+  color:var(--fg); text-decoration:none; font-weight:600; opacity:.92;
+}
+.nav-links a:hover,
+.nav-links a.active{
+  opacity:1; text-decoration:underline; text-underline-offset:4px;
 }
 
-#resume-page .fallback {
-  text-align: center;
-  padding: 2rem;
+/* ---------- Links (normalize site-wide) ---------- */
+a { color: inherit; text-decoration: none; }
+a:visited { color: inherit; }
+a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.card a { color: inherit; text-decoration: none; }
+.card a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- Typographic accents ---------- */
+.accent{
+  background:linear-gradient(90deg,var(--brand),var(--brand-2));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
 }
 
-#resume-page .btn {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: .7rem 1rem;
-  background: #1f6feb;
-  color: #fff;
-  text-decoration: none;
-  border-radius: .5rem;
+/* ---------- Hero (Home + About) ---------- */
+.hero{
+  position:relative; display:grid; gap:28px; align-items:center;
+}
+.hero.two-col{ grid-template-columns:1.2fr .8fr; }
+.hero.one-col{ grid-template-columns:1fr; }
+
+.hero-card{
+  background:var(--glass); border:1px solid var(--stroke);
+  border-radius:var(--radius-2xl); box-shadow:var(--shadow);
+  padding:36px; overflow:hidden;
+}
+.hero-eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 10px; border-radius:999px;
+  background:rgba(255,255,255,.08); border:1px solid var(--stroke);
+  font-size:.86rem; color:var(--muted);
+}
+.hero h1{ font-size:clamp(32px,6vw,52px); margin:14px 0 8px; line-height:1.15 }
+.hero p{ color:var(--muted); font-size:1.06rem; margin:0 0 22px }
+
+/* ---------- Pills, chips, buttons ---------- */
+.chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px }
+.chip{
+  display:inline-flex; align-items:center; gap:8px; padding:8px 12px;
+  border-radius:999px; border:1px solid var(--stroke);
+  background:var(--card); color:var(--muted); font-size:.9rem;
 }
 
-  
-  /* --- main page --- */
-  html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+.cta{ display:flex; gap:12px; flex-wrap:wrap }
+.btn{
+  appearance:none; border:1px solid var(--stroke);
+  background:transparent; color:var(--fg);
+  border-radius:14px; padding:12px 16px; font-weight:700; cursor:pointer;
+  transition:transform .18s ease, border-color .2s ease, background .2s ease, opacity .2s ease;
+}
+.btn:hover{ transform:translateY(-2px); border-color: rgba(110,168,255,.6) }
+.btn-solid{ background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b0c10; border:none }
 
-    .intro-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center center; /* this centers the video */
-        z-index: -1;
-        opacity: 0.65;
-    }
+/* ---------- Stat pills ---------- */
+.stat{
+  display:flex; align-items:center; gap:14px;
+  background:var(--card); border:1px solid var(--stroke);
+  border-radius:18px; padding:16px 18px; backdrop-filter: blur(6px);
+  animation: float 6s ease-in-out infinite;
+}
+.stat .dot{
+  width:10px; height:10px; border-radius:999px;
+  background:linear-gradient(135deg, var(--brand), var(--brand-2));
+  box-shadow:0 0 0 6px rgba(110,168,255,.12);
+}
+@keyframes float{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
 
+/* ---------- Section heads ---------- */
+.section-head{
+  display:flex; align-items:flex-end; justify-content:space-between;
+  gap:18px; margin:6px 0 12px;
+}
+.section-head h2{ margin:0; font-size:1.3rem }
 
+/* ---------- Panels / Split blocks (About) ---------- */
+.split{ display:grid; grid-template-columns:1fr 1fr; gap:16px }
+.panel{
+  background:var(--card); border:1px solid var(--stroke);
+  border-radius:18px; padding:20px;
+}
+.panel h3{ margin:6px 0 8px }
+.panel p{ margin:0; color:var(--muted) }
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background: rgba(0, 0, 0, 0.5);
-    }
+/* ---------- Timeline (About) ---------- */
+.timeline{ display:grid; gap:12px }
+.t-item{
+  display:grid; grid-template-columns:120px 1fr; gap:16px;
+  align-items:start; background:var(--card); border:1px solid var(--stroke);
+  border-radius:16px; padding:14px 16px;
+}
+.t-date{ color:var(--muted); font-weight:700 }
+.t-item h3{ margin:0 0 4px; font-size:1.05rem }
+.t-item p{ margin:0; color:var(--muted) }
 
-    .logo {
-      font-size: 2rem;
-      font-weight: bold;
-    }
-
-    .logo span {
-      color: #3498db;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 25px;
-    }
-
-    .nav-links a {
-      color: #f0f0f0;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .dropdown {
-      border: 1px solid white;
-      border-radius: 5px;
-      padding: 5px 10px;
-      cursor: pointer;
-      background-color: transparent;
-      color: white;
-    }
-
-    .hero {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 20px;
-    }
-
-    .hero-banner {
-        position: relative;
-        height: 100vh;
-        background: url('images/your-background.jpg') no-repeat center center/cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .hero-overlay h1,
-    .hero-overlay h2,
-    .hero-overlay p {
-    margin: 10px 0;
-    color: rgba(255, 255, 255, 0.3); /* You can change to white or dark based on contrast */
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: #000000;
-    }
-
-    .hero a {
-      color: #3498db;
-      text-decoration: none;
-    }
-
-    .enter-btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
-      border: 2px solid gold;
-      background-color: transparent;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .enter-btn:hover {
-      background-color: gold;
-      color: black;
-    }
-
-    .center-band {
-  position: fixed; /* or absolute if you want it to scroll */
-  top: 50%;
-  left: 0;
-  width: 100%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  text-align: center;
-  padding: 8px 0;
-  z-index: 10;
-  font-size:  1.5rem;
-  font-weight: bold;
-  color: whitesmoke; /* use #fff if your background is dark */
-  backdrop-filter: blur(8px); /* optional: softens background behind */
+/* ---------- Gallery (About) ---------- */
+.gallery{ display:grid; grid-template-columns: 2fr 1fr; gap:12px }
+.g-main{ position:relative }
+.g-main img, .g-side img{
+  width:100%; height:100%; object-fit:cover;
+  border-radius:16px; border:1px solid var(--stroke)
+}
+.g-side{ display:grid; gap:12px }
+.caption{
+  position:absolute; left:12px; bottom:12px; padding:6px 10px;
+  background:rgba(0,0,0,.35); border:1px solid var(--stroke);
+  color:#fff; border-radius:999px; font-size:.82rem; backdrop-filter: blur(6px)
 }
 
-    .about {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 80px 20px;
-    color: white;
-    min-height: 100vh;
-    background-color: #111; /* fallback if no video */
-    }
+/* ---------- Projects grid & tools ---------- */
+.hero-card{ /* reused for Projects hero bar */ }
+.hero-top{ display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap }
+.hero-title{ margin:0; font-size:clamp(24px,4.8vw,36px) }
+.hero-help{ color:var(--muted); margin:0 }
 
-    .about-container {
-    max-width: 800px;
-    text-align: center;
-    }
+.tools{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:12px }
+.search{
+  appearance:none; background:rgba(0,0,0,.2); color:var(--fg);
+  border:1px solid var(--stroke); border-radius:12px; padding:10px 12px; min-width:220px
+}
+.pill{
+  display:inline-flex; align-items:center; gap:8px; padding:8px 12px;
+  border-radius:999px; border:1px solid var(--stroke);
+  background:var(--card); color:var(--muted); cursor:pointer; user-select:none
+}
+.pill.active{ background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b0c10; border-color:transparent }
 
-    .page-wrapper {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-    }
+.grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px }
+.card{
+  display:grid; grid-template-rows:160px auto; /* default: cards expect a thumbnail row */
+  background:var(--card); border:1px solid var(--stroke);
+  border-radius:18px; overflow:hidden;
+  transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.card:hover{ transform: translateY(-4px); border-color: rgba(110,168,255,.6); box-shadow: 0 15px 30px rgba(0,0,0,.35) }
+.thumb{
+  display:block; width:100%; height:100%; object-fit:cover;
+  border-radius:0; border-bottom:1px solid var(--stroke);
+}
+.card-body{ padding:14px; display:grid; gap:8px }
+.tag{ display:inline-flex; align-items:center; gap:8px; font-size:.8rem; padding:6px 10px; border:1px solid var(--stroke); color:var(--muted); border-radius:999px }
+.card h3{ margin:0; font-size:1.05rem }
+.card p{ margin:0; color:var(--muted); font-size:.95rem }
+.meta{ display:flex; gap:8px; flex-wrap:wrap }
+.actions{ display:flex; gap:10px; margin-top:6px }
 
-    .about h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    }
-
-    .about p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    color: #ccc;
-    }
-
-    .social-footer {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        padding: 30px 0;
-        background-color: rgba(0, 0, 0, 0.5); /* 50% transparent black */
-        z-index: 1;
-    }
-
-    
-    .social-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 20px 0;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
-  z-index: 10;
-  backdrop-filter: blur(6px);
+/* Cards without thumbnails (used on Home) */
+.card.no-thumb { grid-template-rows: auto; }
+/* Optional CSS-only fallback if you don't want to add .no-thumb in HTML */
+@supports selector(:has(*)) {
+  .card:not(:has(.thumb)) { grid-template-rows: auto; }
 }
 
+/* ---------- Drawer (Projects) ---------- */
+.drawer{ position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:flex-end; justify-content:center; z-index:30 }
+.drawer.open{ display:flex }
+.drawer-panel{
+  width:min(900px, 92vw); max-height:80vh; overflow:auto;
+  background:var(--glass); border:1px solid var(--stroke);
+  border-radius:20px 20px 0 0; box-shadow:var(--shadow); padding:20px
+}
+.drawer h3{ margin:6px 0 8px }
+.drawer .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 }
+.chips .chip{ font-size:.85rem; padding:6px 10px }
 
- /* --- about me page --- */ 
+/* ---------- Footer ---------- */
+footer.social-footer{
+  display:flex; gap:14px; align-items:center; justify-content:center;
+  padding:28px 0; border-top:1px solid var(--stroke); margin-top:10px
+}
+footer.social-footer a{
+  display:inline-flex; padding:10px; border-radius:12px;
+  background:var(--card); border:1px solid var(--stroke)
+}
+footer.social-footer a:hover{ border-color: rgba(110,168,255,.6) }
 
- nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
+/* ---------- Reveal-on-scroll utility (About) ---------- */
+.reveal{ opacity:0; transform: translateY(8px); transition: opacity .6s ease, transform .6s ease }
+.reveal.visible{ opacity:1; transform:none }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px){
+  .hero.two-col{ grid-template-columns:1fr }
+  .split{ grid-template-columns:1fr }
+  .gallery{ grid-template-columns:1fr }
+  .grid{ grid-template-columns:1fr 1fr }
+}
+@media (max-width: 640px){
+  .grid{ grid-template-columns:1fr }
+  .hero-card{ padding:24px }
+  .nav-links{ justify-content:center; flex-wrap:wrap }
 }
 
-.about-section {
-  background-color: #daeaf6;
-  padding: 0;
-  margin: 0;
+/* Helpers */
+.link { color: var(--muted); text-decoration: none; }
+.link:hover { color: var(--fg); text-decoration: underline; text-underline-offset: 4px; }
+/* --- HOME hero right column layout (no more touching) --- */
+.hero-side{
+  display:grid;
+  gap:14px;
+  align-content:start;   /* keep pills from stretching vertically */
 }
 
-.img-rowing {
-  width: 100%;
-  max-height: 500px;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto;
+/* --- HOME cards have no thumbnail: add inner padding & tidy spacing --- */
+.card.no-thumb{
+  grid-template-rows:auto;
+  padding:16px;          /* space inside the glass card */
 }
-.img-friends {
-  width: 100%;
-  max-height: 500px;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto;
-}
-.image-fade {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-.image-fade img {
-  width: 100%;
-  max-height: 500px; /* or adjust as needed */
-  object-fit: cover;
-  display: block;
-  position: relative;
-  z-index: 0;
-}
+.card.no-thumb .chip{ margin-bottom:10px; }
+.card.no-thumb h3{ margin:0 0 6px; }
+.card.no-thumb p{ margin:0; }
 
-.image-fade::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  background: linear-gradient(to bottom, #daeaf6, rgba(218, 234, 246, 0));
-  z-index: 1;
-  pointer-events: none;
-}
+/* --- Buttons: consistent hit area & spacing in hero/panels --- */
+.btn{ line-height:1; }                 /* prevent tall/squished look */
+.panel .btn{ margin-top:12px; }        /* keep buttons off the text */
+.cta .btn{ margin-top:0; }             /* hero buttons already spaced by .cta gap */
 
-.image-fade::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  background: linear-gradient(to top, #daeaf6, rgba(218, 234, 246, 0));
-  z-index: 1;
-  pointer-events: none;
+/* (Optional) tighten card rounding subtly so chips don't look like ovals */
+.card{ border-radius:16px; }
+/* --- Buttons: consistent sizing & alignment everywhere --- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:44px;             /* touch target */
+  padding:10px 16px;
+  line-height:1;               /* fixes tall pills */
+  border-radius:14px;
+  text-decoration:none;
+  -webkit-appearance:none;
+  appearance:none;
+  white-space:nowrap;          /* prevent weird wraps */
 }
-.about-text {
-
-  transform: translateY(40px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  padding: 60px 20px 160px;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-  color: #1a1a1a;
-  font-size: 1.1rem;
-  line-height: 1.6;
+.btn-solid{
+  background:linear-gradient(135deg, var(--brand), var(--brand-2));
+  color:#0b0c10;
+  border:none;
+  box-shadow: inset 0 -2px rgba(0,0,0,.15);
+}
+.btn-ghost{
+  background:transparent;
+  border:1px solid var(--stroke);
 }
 
-.about-text h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  color: #0a3d62;
+.btn:hover{ transform:translateY(-2px); }
+.btn:active{ transform:none; }
+.btn:focus-visible{ outline:2px solid var(--brand); outline-offset:2px; }
+
+/* --- Panels: ensure button doesn't collide with text --- */
+.panel{ display:flex; flex-direction:column; gap:12px; }
+.panel .btn{ align-self:flex-start; }
+
+/* (Optional) make hero button group spacing super tidy */
+.cta .btn{ margin-top:0; }
+/* Resume viewer layout */
+.resume-wrap{
+  width:min(1100px, 92vw);
+  margin: 24px auto 64px;
+}
+.resume-frame{
+  display:block;
+  width:100%;
+  height: calc(100dvh - 120px); /* fill the page under the sticky nav */
+  border:1px solid var(--stroke);
+  border-radius:16px;
+  background: var(--glass);
+  box-shadow: var(--shadow);
 }
 
-.about-section img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    margin: 0;
-    background-color: #daeaf6; /* pastel blue */
+/* Fallback button area */
+.resume-fallback{
+  margin-top:12px;
+  display:flex; gap:10px; flex-wrap:wrap;
 }
-
-  body, .about-section {
-  margin: 0;
-  padding: 0;
-}
-
-    .about-text.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-
-    /* ------- projects page ----*/
-
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 2.5rem;
-      color: #0a3d62;
-      margin: 60px 0 20px;
-    }
-
-    .project-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      padding: 30px;
-    }
-
-    .project-card {
-      background-color: #e8f1fb;
-      border-radius: 12px;
-      padding: 20px;
-      width: 300px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      overflow: hidden;
-    }
-
-    .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-    }
-
-    .project-title {
-      font-weight: 700;
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-    }
-
-    .project-details {
-      display: none;
-      margin-top: 10px;
-      font-size: 0.95rem;
-    }
-
-    .project-card.expanded .project-details {
-      display: block;
-    }
-
-    .project-card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    .social-footer {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      padding: 30px 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-    }
